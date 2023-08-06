@@ -4,17 +4,22 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Helper\EventInfoProviderHelper;
+
 class Session
 {
+    private EventInfoProviderHelper $eventInfoProvider;
+
     public function __construct()
     {
+        $this->eventInfoProvider = new EventInfoProviderHelper();
         session_start();
     }
 
     public function setLocalSessionVariable(string $name, string $value): void
     {
-        $methodName = thisElementInfo('method');
-        $className = thisElementInfo('class');
+        $methodName = $this->eventInfoProvider->getCurrentFunctionName();
+        $className = $this->eventInfoProvider->getCurrentClassName();
 
         $_SESSION[$className][$methodName][$name] = $value;
     }
@@ -26,8 +31,8 @@ class Session
 
     public function getLocalSessionVariable(string $name): ?string
     {
-        $methodName = thisElementInfo('method');
-        $className = thisElementInfo('class');
+        $methodName = $this->eventInfoProvider->getCurrentFunctionName();
+        $className = $this->eventInfoProvider->getCurrentClassName();
         
         if ($this->isLocalVariableSet($name)) {
             return $_SESSION[$className][$methodName][$name];
@@ -47,8 +52,8 @@ class Session
 
     public function isLocalVariableSet(string $name): bool
     {
-        $methodName = thisElementInfo('method');
-        $className = thisElementInfo('class');
+        $methodName = $this->eventInfoProvider->getCurrentFunctionName();
+        $className = $this->eventInfoProvider->getCurrentClassName();
 
         return !empty($_SESSION[$className][$methodName][$name]);
     }

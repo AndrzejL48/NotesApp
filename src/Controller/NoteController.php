@@ -33,8 +33,6 @@ class NoteController extends AbstractController
             $sortOrder = $this->request->getParam('sort_order', $this->session->getLocalSessionVariable('sort_order'));
             $pageNumber = $this->request->getParam('page_number');
 
-
-
             if (!empty($search)) {
                 $this->notesModel->setSearch('title', $search);
                 $this->session->setLocalSessionVariable('search', $search);
