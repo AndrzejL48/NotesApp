@@ -9,7 +9,6 @@ spl_autoload_register(function ($classNamespace) {
 });
 
 require_once("src/Utils/debug.php");
-require_once("src/Utils/thisElementInfo.php");
 $configuration = require_once("config/config.php");
 
 use App\Controller\NoteController;
